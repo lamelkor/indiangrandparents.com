@@ -28,4 +28,4 @@ For questions or to suggest resources and events, please reach out through our w
 
 ---
 
-© 2026 Society of Indian Grandparents (SIG). Building community, one connection at a time.
+© 2026 Society of Indian Grandparents (SIG).
