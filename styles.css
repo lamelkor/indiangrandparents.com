@@ -61,11 +61,14 @@ header {
     flex-wrap: wrap;
 }
 
-.logo h1 {
-    color: var(--gold);
-    font-size: 1.6rem;
-    font-weight: 400;
-    letter-spacing: 0.5px;
+.logo {
+    display: flex;
+    align-items: center;
+}
+
+.logo-img {
+    height: 60px;
+    width: auto;
 }
 
 .nav-links {
