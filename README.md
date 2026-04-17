@@ -1,4 +1,4 @@
-# Indian Grandparents Toronto
+# Society of Indian Grandparents (SIG)
 
 A community website for Indian elderly people in Toronto, providing resources, events, and FAQs to help navigate life in a new country and build community connections.
 
