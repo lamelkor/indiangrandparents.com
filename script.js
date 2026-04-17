@@ -56,3 +56,38 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         }
     });
 });
+
+// Contact Form Handling
+const contactForm = document.getElementById('contactForm');
+const formStatus = document.getElementById('formStatus');
+
+if (contactForm) {
+    contactForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Get form data
+        const formData = {
+            name: document.getElementById('name').value,
+            email: document.getElementById('email').value,
+            subject: document.getElementById('subject').value,
+            message: document.getElementById('message').value
+        };
+        
+        // Show success message (in production, you'd send this to a backend)
+        formStatus.className = 'form-status success';
+        formStatus.textContent = currentLang === 'en' 
+            ? 'Thank you for your message! We will get back to you soon.'
+            : 'आपके संदेश के लिए धन्यवाद! हम जल्द ही आपसे संपर्क करेंगे।';
+        
+        // Reset form
+        contactForm.reset();
+        
+        // Hide message after 5 seconds
+        setTimeout(() => {
+            formStatus.style.display = 'none';
+        }, 5000);
+        
+        // Log form data (for development)
+        console.log('Form submitted:', formData);
+    });
+}

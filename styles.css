@@ -312,6 +312,121 @@ header {
     line-height: 1.7;
 }
 
+/* Contact Section */
+.contact {
+    padding: 5rem 0;
+    background: var(--dark-bg);
+}
+
+.contact h2 {
+    text-align: center;
+    font-size: 2.8rem;
+    margin-bottom: 1rem;
+    color: var(--gold);
+    font-weight: 400;
+    letter-spacing: 1px;
+}
+
+.contact-intro {
+    text-align: center;
+    font-size: 1.2rem;
+    color: var(--text-light);
+    margin-bottom: 3rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.contact-form {
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--gold);
+    font-size: 1.1rem;
+    font-weight: 400;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 0.9rem;
+    background: var(--cream);
+    border: 2px solid rgba(217, 119, 6, 0.2);
+    border-radius: 8px;
+    color: var(--text-dark);
+    font-size: 1rem;
+    font-family: 'Iowan Old Style', 'Palatino Linotype', 'URW Palladio L', P052, serif;
+    transition: all 0.3s;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--saffron);
+    box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.1);
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+    color: var(--text-muted);
+}
+
+.submit-btn {
+    width: 100%;
+    padding: 1rem 2rem;
+    background: linear-gradient(135deg, var(--saffron), var(--deep-saffron));
+    color: var(--white);
+    border: none;
+    border-radius: 8px;
+    font-size: 1.2rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-family: 'Iowan Old Style', 'Palatino Linotype', 'URW Palladio L', P052, serif;
+}
+
+.submit-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(217, 119, 6, 0.4);
+}
+
+.form-status {
+    margin-top: 1rem;
+    padding: 1rem;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 1rem;
+    display: none;
+}
+
+.form-status.success {
+    display: block;
+    background: rgba(6, 95, 70, 0.2);
+    color: #10B981;
+    border: 1px solid #10B981;
+}
+
+.form-status.error {
+    display: block;
+    background: rgba(220, 38, 38, 0.2);
+    color: #EF4444;
+    border: 1px solid #EF4444;
+}
+
 /* FAQ Section */
 .faq {
     padding: 5rem 0;
@@ -435,6 +550,10 @@ footer p {
     }
     
     .resource-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .form-row {
         grid-template-columns: 1fr;
     }
 }
