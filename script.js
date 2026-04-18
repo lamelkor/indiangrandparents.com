@@ -1,13 +1,50 @@
 // Language Toggle Functionality
 let currentLang = 'en';
 
-const langSelect = document.getElementById('langSelect');
+const langToggle = document.getElementById('langToggle');
+const langMenu = document.getElementById('langMenu');
+const currentLangSpan = document.getElementById('currentLang');
+const langOptions = document.querySelectorAll('.lang-option');
 const translatableElements = document.querySelectorAll('[data-en]');
 
-if (langSelect) {
-    langSelect.addEventListener('change', (e) => {
-        currentLang = e.target.value;
+const langNames = {
+    'en': 'English',
+    'hi': 'हिंदी',
+    'ta': 'தமிழ்',
+    'ml': 'മലയാളം',
+    'pa': 'ਪੰਜਾਬੀ',
+    'bn': 'বাংলা'
+};
+
+// Toggle language menu
+if (langToggle && langMenu) {
+    langToggle.addEventListener('click', (e) => {
+        e.stopPropagation();
+        langMenu.classList.toggle('show');
+    });
+
+    // Close menu when clicking outside
+    document.addEventListener('click', () => {
+        langMenu.classList.remove('show');
+    });
+
+    langMenu.addEventListener('click', (e) => {
+        e.stopPropagation();
+    });
+}
+
+// Handle language selection
+langOptions.forEach(option => {
+    option.addEventListener('click', () => {
+        const selectedLang = option.getAttribute('data-lang');
+        currentLang = selectedLang;
         
+        // Update current language display
+        if (currentLangSpan) {
+            currentLangSpan.textContent = langNames[selectedLang];
+        }
+        
+        // Update all translatable elements
         translatableElements.forEach(element => {
             const text = element.getAttribute(`data-${currentLang}`);
             if (text) {
@@ -21,8 +58,11 @@ if (langSelect) {
         
         // Update HTML lang attribute
         document.documentElement.lang = currentLang;
+        
+        // Close menu
+        langMenu.classList.remove('show');
     });
-}
+});
 
 // FAQ Accordion Functionality
 const faqQuestions = document.querySelectorAll('.faq-question');

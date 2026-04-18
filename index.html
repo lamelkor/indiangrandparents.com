@@ -19,14 +19,20 @@
                     <a href="#events" data-en="Events" data-hi="कार्यक्रम" data-ta="நிகழ்வுகள்" data-ml="പരിപാടികൾ" data-pa="ਸਮਾਗਮ" data-bn="ইভেন্ট">Events</a>
                     <a href="#contact" data-en="Contact" data-hi="संपर्क" data-ta="தொடர்பு" data-ml="ബന്ധപ്പെടുക" data-pa="ਸੰਪਰਕ" data-bn="যোগাযোগ">Contact</a>
                     <a href="#faq" data-en="FAQ" data-hi="सामान्य प्रश्न" data-ta="கேள்விகள்" data-ml="ചോദ്യങ്ങൾ" data-pa="ਸਵਾਲ" data-bn="প্রশ্ন">FAQ</a>
-                    <select id="langSelect" class="lang-select">
-                        <option value="en">English</option>
-                        <option value="hi">हिंदी</option>
-                        <option value="ta">தமிழ்</option>
-                        <option value="ml">മലയാളം</option>
-                        <option value="pa">ਪੰਜਾਬੀ</option>
-                        <option value="bn">বাংলা</option>
-                    </select>
+                    <div class="lang-switcher">
+                        <button id="langToggle" class="lang-btn">
+                            <span class="lang-icon">🌐</span>
+                            <span id="currentLang">English</span>
+                        </button>
+                        <div id="langMenu" class="lang-menu">
+                            <button class="lang-option" data-lang="en">English</button>
+                            <button class="lang-option" data-lang="hi">हिंदी</button>
+                            <button class="lang-option" data-lang="ta">தமிழ்</button>
+                            <button class="lang-option" data-lang="ml">മലയാളം</button>
+                            <button class="lang-option" data-lang="pa">ਪੰਜਾਬੀ</button>
+                            <button class="lang-option" data-lang="bn">বাংলা</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </nav>
