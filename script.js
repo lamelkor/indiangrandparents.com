@@ -57,11 +57,24 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });
 
-// Contact Form Handling
+// Contact Form Handling - Fallback for non-AJAX
 const contactForm = document.getElementById('contactForm');
 const formStatus = document.getElementById('formStatus');
 
 if (contactForm) {
+    // Check if form was just submitted (Formspree redirects back)
+    if (window.location.hash === '#contact' && document.referrer.includes('formspree.io')) {
+        formStatus.className = 'form-status success';
+        formStatus.textContent = currentLang === 'en' 
+            ? 'Thank you for your message! We will get back to you soon.'
+            : 'आपके संदेश के लिए धन्यवाद! हम जल्द ही आपसे संपर्क करेंगे।';
+        
+        setTimeout(() => {
+            formStatus.style.display = 'none';
+            window.history.replaceState(null, null, ' ');
+        }, 8000);
+    }
+    
     contactForm.addEventListener('submit', async function(e) {
         e.preventDefault();
         
@@ -94,15 +107,21 @@ if (contactForm) {
                 contactForm.reset();
             } else {
                 const data = await response.json();
+                
+                // If form not found, fall back to regular form submission
+                if (response.status === 404) {
+                    console.log('Form not found via AJAX, submitting normally...');
+                    contactForm.submit();
+                    return;
+                }
+                
                 throw new Error(data.error || 'Form submission failed');
             }
         } catch (error) {
-            // Show error message
-            formStatus.className = 'form-status error';
-            formStatus.textContent = currentLang === 'en'
-                ? 'Oops! There was a problem sending your message. Please try again.'
-                : 'क्षमा करें! आपका संदेश भेजने में समस्या हुई। कृपया पुनः प्रयास करें।';
-            console.error('Form submission error:', error);
+            // If AJAX fails, try regular form submission
+            console.log('AJAX failed, trying regular submission...', error);
+            contactForm.submit();
+            return;
         } finally {
             // Reset button
             submitBtn.disabled = false;
