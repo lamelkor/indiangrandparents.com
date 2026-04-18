@@ -62,32 +62,52 @@ const contactForm = document.getElementById('contactForm');
 const formStatus = document.getElementById('formStatus');
 
 if (contactForm) {
-    contactForm.addEventListener('submit', function(e) {
+    contactForm.addEventListener('submit', async function(e) {
         e.preventDefault();
         
-        // Get form data
-        const formData = {
-            name: document.getElementById('name').value,
-            email: document.getElementById('email').value,
-            subject: document.getElementById('subject').value,
-            message: document.getElementById('message').value
-        };
+        const submitBtn = contactForm.querySelector('.submit-btn');
+        const originalText = submitBtn.textContent;
         
-        // Show success message (in production, you'd send this to a backend)
-        formStatus.className = 'form-status success';
-        formStatus.textContent = currentLang === 'en' 
-            ? 'Thank you for your message! We will get back to you soon.'
-            : 'आपके संदेश के लिए धन्यवाद! हम जल्द ही आपसे संपर्क करेंगे।';
+        // Show loading state
+        submitBtn.disabled = true;
+        submitBtn.textContent = currentLang === 'en' ? 'Sending...' : 'भेजा जा रहा है...';
         
-        // Reset form
-        contactForm.reset();
-        
-        // Hide message after 5 seconds
-        setTimeout(() => {
-            formStatus.style.display = 'none';
-        }, 5000);
-        
-        // Log form data (for development)
-        console.log('Form submitted:', formData);
+        try {
+            const response = await fetch(contactForm.action, {
+                method: 'POST',
+                body: new FormData(contactForm),
+                headers: {
+                    'Accept': 'application/json'
+                }
+            });
+            
+            if (response.ok) {
+                // Show success message
+                formStatus.className = 'form-status success';
+                formStatus.textContent = currentLang === 'en' 
+                    ? 'Thank you for your message! We will get back to you soon.'
+                    : 'आपके संदेश के लिए धन्यवाद! हम जल्द ही आपसे संपर्क करेंगे।';
+                
+                // Reset form
+                contactForm.reset();
+            } else {
+                throw new Error('Form submission failed');
+            }
+        } catch (error) {
+            // Show error message
+            formStatus.className = 'form-status error';
+            formStatus.textContent = currentLang === 'en'
+                ? 'Oops! There was a problem sending your message. Please try again.'
+                : 'क्षमा करें! आपका संदेश भेजने में समस्या हुई। कृपया पुनः प्रयास करें।';
+        } finally {
+            // Reset button
+            submitBtn.disabled = false;
+            submitBtn.textContent = originalText;
+            
+            // Hide message after 5 seconds
+            setTimeout(() => {
+                formStatus.style.display = 'none';
+            }, 5000);
+        }
     });
 }
