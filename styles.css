@@ -103,10 +103,6 @@ header {
     color: var(--gold);
 }
 
-.lang-switcher {
-    position: relative;
-}
-
 .lang-btn {
     background: var(--saffron);
     color: var(--darker-bg);
@@ -117,62 +113,12 @@ header {
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-family: 'Iowan Old Style', 'Palatino Linotype', 'URW Palladio L', P052, serif;
 }
 
 .lang-btn:hover {
     background: var(--gold);
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
-}
-
-.lang-icon {
-    font-size: 1.2rem;
-}
-
-.lang-menu {
-    position: absolute;
-    top: calc(100% + 0.5rem);
-    right: 0;
-    background: var(--darker-bg);
-    border: 2px solid var(--saffron);
-    border-radius: 12px;
-    padding: 0.5rem;
-    min-width: 150px;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.5);
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(-10px);
-    transition: all 0.3s ease;
-    z-index: 1000;
-}
-
-.lang-menu.show {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
-}
-
-.lang-option {
-    width: 100%;
-    background: none;
-    border: none;
-    color: var(--text-dark);
-    padding: 0.7rem 1rem;
-    text-align: left;
-    cursor: pointer;
-    border-radius: 8px;
-    font-size: 1rem;
-    transition: all 0.2s;
-    font-family: 'Iowan Old Style', 'Palatino Linotype', 'URW Palladio L', P052, serif;
-}
-
-.lang-option:hover {
-    background: var(--saffron);
-    color: var(--darker-bg);
 }
 
 /* Hero Section */

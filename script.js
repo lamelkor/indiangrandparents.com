@@ -2,66 +2,25 @@
 let currentLang = 'en';
 
 const langToggle = document.getElementById('langToggle');
-const langMenu = document.getElementById('langMenu');
-const currentLangSpan = document.getElementById('currentLang');
-const langOptions = document.querySelectorAll('.lang-option');
-const translatableElements = document.querySelectorAll('[data-en]');
+const translatableElements = document.querySelectorAll('[data-en][data-hi]');
 
-const langNames = {
-    'en': 'English',
-    'hi': 'हिंदी',
-    'ta': 'தமிழ்',
-    'ml': 'മലയാളം',
-    'pa': 'ਪੰਜਾਬੀ',
-    'bn': 'বাংলা'
-};
-
-// Toggle language menu
-if (langToggle && langMenu) {
-    langToggle.addEventListener('click', (e) => {
-        e.stopPropagation();
-        langMenu.classList.toggle('show');
-    });
-
-    // Close menu when clicking outside
-    document.addEventListener('click', () => {
-        langMenu.classList.remove('show');
-    });
-
-    langMenu.addEventListener('click', (e) => {
-        e.stopPropagation();
-    });
-}
-
-// Handle language selection
-langOptions.forEach(option => {
-    option.addEventListener('click', () => {
-        const selectedLang = option.getAttribute('data-lang');
-        currentLang = selectedLang;
-        
-        // Update current language display
-        if (currentLangSpan) {
-            currentLangSpan.textContent = langNames[selectedLang];
+langToggle.addEventListener('click', () => {
+    currentLang = currentLang === 'en' ? 'hi' : 'en';
+    
+    translatableElements.forEach(element => {
+        const text = element.getAttribute(`data-${currentLang}`);
+        if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
+            element.placeholder = text;
+        } else {
+            element.textContent = text;
         }
-        
-        // Update all translatable elements
-        translatableElements.forEach(element => {
-            const text = element.getAttribute(`data-${currentLang}`);
-            if (text) {
-                if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
-                    element.placeholder = text;
-                } else {
-                    element.textContent = text;
-                }
-            }
-        });
-        
-        // Update HTML lang attribute
-        document.documentElement.lang = currentLang;
-        
-        // Close menu
-        langMenu.classList.remove('show');
     });
+    
+    // Update button text
+    langToggle.textContent = currentLang === 'en' ? 'हिंदी' : 'English';
+    
+    // Update HTML lang attribute
+    document.documentElement.lang = currentLang;
 });
 
 // FAQ Accordion Functionality
