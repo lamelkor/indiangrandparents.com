@@ -1,27 +1,28 @@
 // Language Toggle Functionality
 let currentLang = 'en';
 
-const langToggle = document.getElementById('langToggle');
-const translatableElements = document.querySelectorAll('[data-en][data-hi]');
+const langSelect = document.getElementById('langSelect');
+const translatableElements = document.querySelectorAll('[data-en]');
 
-langToggle.addEventListener('click', () => {
-    currentLang = currentLang === 'en' ? 'hi' : 'en';
-    
-    translatableElements.forEach(element => {
-        const text = element.getAttribute(`data-${currentLang}`);
-        if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
-            element.placeholder = text;
-        } else {
-            element.textContent = text;
-        }
+if (langSelect) {
+    langSelect.addEventListener('change', (e) => {
+        currentLang = e.target.value;
+        
+        translatableElements.forEach(element => {
+            const text = element.getAttribute(`data-${currentLang}`);
+            if (text) {
+                if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
+                    element.placeholder = text;
+                } else {
+                    element.textContent = text;
+                }
+            }
+        });
+        
+        // Update HTML lang attribute
+        document.documentElement.lang = currentLang;
     });
-    
-    // Update button text
-    langToggle.textContent = currentLang === 'en' ? 'हिंदी' : 'English';
-    
-    // Update HTML lang attribute
-    document.documentElement.lang = currentLang;
-});
+}
 
 // FAQ Accordion Functionality
 const faqQuestions = document.querySelectorAll('.faq-question');
