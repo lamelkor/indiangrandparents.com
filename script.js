@@ -73,15 +73,15 @@ if (contactForm) {
         submitBtn.textContent = currentLang === 'en' ? 'Sending...' : 'भेजा जा रहा है...';
         
         try {
-            const response = await fetch(contactForm.action, {
+            const formData = new FormData(contactForm);
+            
+            const response = await fetch('https://formspree.io/f/mzdygpgq', {
                 method: 'POST',
-                body: new FormData(contactForm),
+                body: formData,
                 headers: {
                     'Accept': 'application/json'
                 }
             });
-            
-            const data = await response.json();
             
             if (response.ok) {
                 // Show success message
@@ -93,24 +93,15 @@ if (contactForm) {
                 // Reset form
                 contactForm.reset();
             } else {
-                // Show error message with details
-                formStatus.className = 'form-status error';
-                if (data.errors) {
-                    formStatus.textContent = currentLang === 'en'
-                        ? `Error: ${data.errors.map(e => e.message).join(', ')}`
-                        : 'क्षमा करें! आपका संदेश भेजने में समस्या हुई। कृपया पुनः प्रयास करें।';
-                } else {
-                    formStatus.textContent = currentLang === 'en'
-                        ? 'Oops! There was a problem sending your message. Please try again.'
-                        : 'क्षमा करें! आपका संदेश भेजने में समस्या हुई। कृपया पुनः प्रयास करें।';
-                }
+                const data = await response.json();
+                throw new Error(data.error || 'Form submission failed');
             }
         } catch (error) {
             // Show error message
             formStatus.className = 'form-status error';
             formStatus.textContent = currentLang === 'en'
-                ? 'Oops! There was a problem sending your message. Please check your internet connection and try again.'
-                : 'क्षमा करें! आपका संदेश भेजने में समस्या हुई। कृपया अपना इंटरनेट कनेक्शन जांचें और पुनः प्रयास करें।';
+                ? 'Oops! There was a problem sending your message. Please try again.'
+                : 'क्षमा करें! आपका संदेश भेजने में समस्या हुई। कृपया पुनः प्रयास करें।';
             console.error('Form submission error:', error);
         } finally {
             // Reset button
