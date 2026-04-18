@@ -81,6 +81,8 @@ if (contactForm) {
                 }
             });
             
+            const data = await response.json();
+            
             if (response.ok) {
                 // Show success message
                 formStatus.className = 'form-status success';
@@ -91,23 +93,35 @@ if (contactForm) {
                 // Reset form
                 contactForm.reset();
             } else {
-                throw new Error('Form submission failed');
+                // Show error message with details
+                formStatus.className = 'form-status error';
+                if (data.errors) {
+                    formStatus.textContent = currentLang === 'en'
+                        ? `Error: ${data.errors.map(e => e.message).join(', ')}`
+                        : 'क्षमा करें! आपका संदेश भेजने में समस्या हुई। कृपया पुनः प्रयास करें।';
+                } else {
+                    formStatus.textContent = currentLang === 'en'
+                        ? 'Oops! There was a problem sending your message. Please try again.'
+                        : 'क्षमा करें! आपका संदेश भेजने में समस्या हुई। कृपया पुनः प्रयास करें।';
+                }
             }
         } catch (error) {
             // Show error message
             formStatus.className = 'form-status error';
             formStatus.textContent = currentLang === 'en'
-                ? 'Oops! There was a problem sending your message. Please try again.'
-                : 'क्षमा करें! आपका संदेश भेजने में समस्या हुई। कृपया पुनः प्रयास करें।';
+                ? 'Oops! There was a problem sending your message. Please check your internet connection and try again.'
+                : 'क्षमा करें! आपका संदेश भेजने में समस्या हुई। कृपया अपना इंटरनेट कनेक्शन जांचें और पुनः प्रयास करें।';
+            console.error('Form submission error:', error);
         } finally {
             // Reset button
             submitBtn.disabled = false;
             submitBtn.textContent = originalText;
             
-            // Hide message after 5 seconds
+            // Hide message after 8 seconds
             setTimeout(() => {
                 formStatus.style.display = 'none';
-            }, 5000);
+            }, 8000);
         }
     });
 }
+
