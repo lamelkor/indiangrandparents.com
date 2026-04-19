@@ -74,7 +74,7 @@ header {
 
 .nav-links {
     display: flex;
-    gap: 2.5rem;
+    gap: 1.5rem; /* Increased gap for better spacing between touch targets */
     align-items: center;
     flex-wrap: wrap;
 }
@@ -86,6 +86,10 @@ header {
     font-weight: 400;
     transition: all 0.3s;
     position: relative;
+    padding: 0.75rem 0.5rem; /* Added padding for larger touch target */
+    min-height: 48px; /* Minimum touch target height */
+    display: inline-flex;
+    align-items: center;
 }
 
 .nav-links a::after {
@@ -111,12 +115,17 @@ header {
     background: var(--saffron);
     color: var(--text-dark);
     border: 2px solid var(--deep-saffron);
-    padding: 0.5rem 1.2rem;
+    padding: 0.75rem 1.5rem; /* Increased padding for larger touch target */
     border-radius: 25px;
     font-size: 1rem;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s;
+    min-height: 48px; /* Minimum touch target height */
+    min-width: 100px; /* Minimum touch target width */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .lang-btn:hover {
@@ -201,6 +210,8 @@ header {
     border: 2px solid var(--saffron);
     position: relative;
     overflow: hidden;
+    cursor: pointer; /* Indicate interactivity */
+    min-height: 280px; /* Ensure adequate touch target size */
 }
 
 .resource-card::before {
@@ -270,6 +281,8 @@ header {
     box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     border-left: 4px solid var(--saffron);
     transition: all 0.3s ease;
+    cursor: pointer; /* Indicate interactivity */
+    min-height: 140px; /* Ensure adequate touch target size */
 }
 
 .event-card:hover {
@@ -368,7 +381,7 @@ header {
 .form-group input,
 .form-group textarea {
     width: 100%;
-    padding: 0.9rem;
+    padding: 1rem; /* Increased padding for easier interaction */
     background: var(--off-white);
     border: 2px solid var(--saffron);
     border-radius: 8px;
@@ -376,6 +389,7 @@ header {
     font-size: 1rem;
     font-family: 'Iowan Old Style', 'Palatino Linotype', 'URW Palladio L', P052, serif;
     transition: all 0.3s;
+    min-height: 48px; /* Minimum touch target height */
 }
 
 .form-group input:focus,
@@ -392,7 +406,7 @@ header {
 
 .submit-btn {
     width: 100%;
-    padding: 1rem 2rem;
+    padding: 1.2rem 2rem; /* Increased padding for larger touch target */
     background: linear-gradient(135deg, var(--saffron), var(--deep-saffron));
     color: var(--text-dark);
     border: none;
@@ -402,6 +416,7 @@ header {
     cursor: pointer;
     transition: all 0.3s;
     font-family: 'Iowan Old Style', 'Palatino Linotype', 'URW Palladio L', P052, serif;
+    min-height: 56px; /* Larger touch target for primary action */
 }
 
 .submit-btn:hover {
@@ -483,6 +498,7 @@ header {
     align-items: center;
     transition: all 0.3s;
     font-family: 'Iowan Old Style', 'Palatino Linotype', 'URW Palladio L', P052, serif;
+    min-height: 60px; /* Larger touch target for FAQ buttons */
 }
 
 .faq-question:hover {
@@ -542,6 +558,17 @@ footer p {
     .nav-links {
         gap: 1rem;
         justify-content: center;
+        width: 100%;
+    }
+    
+    .nav-links a {
+        padding: 0.75rem 1rem; /* Maintain touch target on mobile */
+        font-size: 1.05rem;
+    }
+    
+    .lang-btn {
+        margin-top: 0.5rem;
+        min-width: 120px; /* Slightly larger on mobile */
     }
     
     .hero-content h2 {
@@ -554,13 +581,36 @@ footer p {
     
     .event-card {
         flex-direction: column;
+        min-height: auto; /* Allow natural height on mobile */
     }
     
     .resource-grid {
         grid-template-columns: 1fr;
+        gap: 1.5rem; /* Adequate spacing between cards */
+    }
+    
+    .resource-card {
+        min-height: 240px; /* Slightly smaller on mobile but still adequate */
     }
     
     .form-row {
         grid-template-columns: 1fr;
+    }
+    
+    .form-group input,
+    .form-group textarea {
+        font-size: 16px; /* Prevent zoom on iOS */
+        min-height: 52px; /* Slightly larger on mobile */
+    }
+    
+    .submit-btn {
+        min-height: 60px; /* Larger primary button on mobile */
+        font-size: 1.3rem;
+    }
+    
+    .faq-question {
+        font-size: 1.15rem;
+        padding: 1.5rem;
+        min-height: 56px; /* Maintain touch target on mobile */
     }
 }
