@@ -158,11 +158,3 @@ This feature list directly maps to the Goals & Objectives Document (Sections 3�
 4. **Senior Testing Prompt**: After each major feature, generate a “senior-friendliness checklist” and simulate UX.  
 
 This document is ready to copy-paste into a new Markdown file (`SIG_Technical_Feature_Specs.md`). It is comprehensive yet modular so you can hand individual sections to an AI coder one sprint at a time.
-
-Would you like me to:
-- Expand any section into full user stories + database schema?
-- Create a Figma-style component library spec?
-- Generate starter code prompts for Phase 1?
-- Add a detailed migration plan from the current static site?
-
-Just let me know the next piece you need to move forward! SIG is going to make a real difference.
