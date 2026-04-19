@@ -23,6 +23,44 @@ langToggle.addEventListener('click', () => {
     document.documentElement.lang = currentLang;
 });
 
+// Theme Toggle Functionality (Light / Dark / High Contrast)
+const themeToggle = document.getElementById('themeToggle');
+const themeIcon = document.querySelector('.theme-icon');
+let currentTheme = localStorage.getItem('theme') || 'light';
+
+// Apply saved theme on page load
+document.documentElement.setAttribute('data-theme', currentTheme);
+updateThemeIcon(currentTheme);
+
+themeToggle.addEventListener('click', () => {
+    // Cycle through themes: light -> dark -> high-contrast -> light
+    if (currentTheme === 'light') {
+        currentTheme = 'dark';
+    } else if (currentTheme === 'dark') {
+        currentTheme = 'high-contrast';
+    } else {
+        currentTheme = 'light';
+    }
+    
+    // Apply theme
+    document.documentElement.setAttribute('data-theme', currentTheme);
+    localStorage.setItem('theme', currentTheme);
+    updateThemeIcon(currentTheme);
+});
+
+function updateThemeIcon(theme) {
+    if (theme === 'light') {
+        themeIcon.textContent = '☀️';
+        themeToggle.setAttribute('aria-label', 'Switch to dark mode');
+    } else if (theme === 'dark') {
+        themeIcon.textContent = '🌙';
+        themeToggle.setAttribute('aria-label', 'Switch to high contrast mode');
+    } else {
+        themeIcon.textContent = '⚡';
+        themeToggle.setAttribute('aria-label', 'Switch to light mode');
+    }
+}
+
 // FAQ Accordion Functionality
 const faqQuestions = document.querySelectorAll('.faq-question');
 
