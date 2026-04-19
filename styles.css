@@ -88,6 +88,7 @@ header {
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
+    gap: 1rem;
 }
 
 .logo h1 {
@@ -95,26 +96,28 @@ header {
     font-size: 1.6rem;
     font-weight: 400;
     letter-spacing: 0.5px;
+    flex-shrink: 0;
 }
 
 .nav-links {
     display: flex;
-    gap: 1.5rem; /* Increased gap for better spacing between touch targets */
+    gap: 1rem; /* Reduced gap to fit better on one line */
     align-items: center;
-    flex-wrap: wrap;
+    flex-wrap: nowrap; /* Prevent wrapping on desktop */
 }
 
 .nav-links a {
     color: var(--cream);
     text-decoration: none;
-    font-size: 1.1rem;
+    font-size: 1rem; /* Slightly reduced to fit better */
     font-weight: 400;
     transition: all 0.3s;
     position: relative;
-    padding: 0.75rem 0.5rem; /* Added padding for larger touch target */
+    padding: 0.75rem 0.4rem; /* Reduced horizontal padding */
     min-height: 48px; /* Minimum touch target height */
     display: inline-flex;
     align-items: center;
+    white-space: nowrap; /* Prevent text wrapping */
 }
 
 .nav-links a::after {
@@ -611,6 +614,7 @@ footer p {
         gap: 1rem;
         justify-content: center;
         width: 100%;
+        flex-wrap: wrap; /* Allow wrapping on mobile */
     }
     
     .nav-links a {
