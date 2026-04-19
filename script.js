@@ -1,11 +1,21 @@
 // ============================================
 // TRANSLATION SYSTEM
 // ============================================
+// This system loads translations from JSON files and applies them dynamically
+// based on the user's language preference. Language choice is persisted in localStorage.
+//
+// To add a new language:
+// 1. Create a new JSON file in translations/ (e.g., pa.json for Punjabi)
+// 2. Add it to the loadTranslations() function below
+// 3. Update the language toggle logic
+//
+// See translations/README.md for detailed documentation
 
 let translations = {};
 let currentLang = localStorage.getItem('language') || 'en';
 
-// Load translation files
+// Load translation files from JSON
+// Fetches all language files asynchronously and stores them in memory
 async function loadTranslations() {
     try {
         const enResponse = await fetch('translations/en.json');
@@ -14,14 +24,17 @@ async function loadTranslations() {
         translations.en = await enResponse.json();
         translations.hi = await hiResponse.json();
         
-        // Apply translations on page load
+        // Apply translations immediately after loading
         applyTranslations();
     } catch (error) {
         console.error('Error loading translations:', error);
+        // Fallback: page will display default English text from HTML
     }
 }
 
 // Get nested translation value using dot notation (e.g., "nav.home")
+// Traverses the translation object to find the value at the specified path
+// Returns the key itself if translation is not found (with console warning)
 function t(key) {
     const keys = key.split('.');
     let value = translations[currentLang];
@@ -31,7 +44,7 @@ function t(key) {
             value = value[k];
         } else {
             console.warn(`Translation key not found: ${key}`);
-            return key;
+            return key; // Fallback to showing the key
         }
     }
     
@@ -39,6 +52,7 @@ function t(key) {
 }
 
 // Apply translations to all elements with data-i18n attribute
+// This function is called on page load and whenever language changes
 function applyTranslations() {
     // Update page title and meta description
     document.title = t('meta.title');
@@ -47,14 +61,16 @@ function applyTranslations() {
         metaDesc.setAttribute('content', t('meta.description'));
     }
     
-    // Update HTML lang attribute
+    // Update HTML lang attribute for accessibility and SEO
     document.documentElement.lang = currentLang;
     
-    // Translate all elements with data-i18n
+    // Translate all elements with data-i18n attribute
+    // Handles both regular text content and form placeholders
     document.querySelectorAll('[data-i18n]').forEach(element => {
         const key = element.getAttribute('data-i18n');
         const translation = t(key);
         
+        // Special handling for form inputs and textareas
         if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
             element.placeholder = translation;
         } else {
@@ -62,21 +78,22 @@ function applyTranslations() {
         }
     });
     
-    // Translate all elements with data-i18n-aria
+    // Translate all aria-label attributes for accessibility
     document.querySelectorAll('[data-i18n-aria]').forEach(element => {
         const key = element.getAttribute('data-i18n-aria');
         const translation = t(key);
         element.setAttribute('aria-label', translation);
     });
     
-    // Update language toggle button
+    // Update language toggle button text
     const langToggle = document.getElementById('langToggle');
     if (langToggle) {
         langToggle.textContent = currentLang === 'en' ? 'हिंदी' : 'English';
     }
 }
 
-// Toggle language
+// Toggle between languages
+// Switches language, saves preference, and re-applies all translations
 function toggleLanguage() {
     currentLang = currentLang === 'en' ? 'hi' : 'en';
     localStorage.setItem('language', currentLang);
