@@ -157,4 +157,3 @@ This feature list directly maps to the Goals & Objectives Document (Sections 3�
 3. **Iterate in Small PRs**: One feature per branch (e.g., “add-event-calendar”).  
 4. **Senior Testing Prompt**: After each major feature, generate a “senior-friendliness checklist” and simulate UX.  
 
-This document is ready to copy-paste into a new Markdown file (`SIG_Technical_Feature_Specs.md`). It is comprehensive yet modular so you can hand individual sections to an AI coder one sprint at a time.
