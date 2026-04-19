@@ -6,31 +6,256 @@
 //
 // To add a new language:
 // 1. Create a new JSON file in translations/ (e.g., pa.json for Punjabi)
-// 2. Add it to the loadTranslations() function below
+// 2. Add it to the translations object below
 // 3. Update the language toggle logic
 //
 // See translations/README.md for detailed documentation
 
-let translations = {};
-let currentLang = localStorage.getItem('language') || 'en';
-
-// Load translation files from JSON
-// Fetches all language files asynchronously and stores them in memory
-async function loadTranslations() {
-    try {
-        const enResponse = await fetch('translations/en.json');
-        const hiResponse = await fetch('translations/hi.json');
-        
-        translations.en = await enResponse.json();
-        translations.hi = await hiResponse.json();
-        
-        // Apply translations immediately after loading
-        applyTranslations();
-    } catch (error) {
-        console.error('Error loading translations:', error);
-        // Fallback: page will display default English text from HTML
+// Embedded translations to avoid CORS issues when opening HTML directly
+const translations = {
+    en: {
+        "meta": {
+            "title": "Indian Grandparents in Toronto - Community & Resources",
+            "description": "Society of Indian Grandparents (SIG) - Connecting elderly Indians in Greater Toronto. Find resources, events, and community support for Indian seniors."
+        },
+        "nav": {
+            "home": "Home",
+            "events": "Events",
+            "resources": "Resources",
+            "community": "Community",
+            "about": "About",
+            "contact": "Contact",
+            "skipToMain": "Skip to main content",
+            "ariaHome": "Go to home section",
+            "ariaEvents": "View upcoming events",
+            "ariaResources": "Browse community resources",
+            "ariaCommunity": "Learn about our community",
+            "ariaAbout": "Read about us",
+            "ariaContact": "Contact us",
+            "ariaTheme": "Change color theme - tap to switch between light, dark, and high contrast modes",
+            "ariaLang": "Switch language between English and Hindi"
+        },
+        "header": {
+            "title": "Indian Grandparents in Toronto"
+        },
+        "hero": {
+            "heading": "Welcome to Your Community",
+            "description": "We are the Society of Indian Grandparents. We are a community to connect elderly Indians in the Greater Toronto region with each other - find resources, make friends, and share in activities that were common to experience in India but are hard to find in the West."
+        },
+        "resources": {
+            "heading": "Resources",
+            "healthcare": {
+                "title": "Healthcare",
+                "description": "Find doctors, clinics, and health services",
+                "aria": "Healthcare resources - tap to learn more about finding doctors, clinics, and health services"
+            },
+            "transportation": {
+                "title": "Transportation",
+                "description": "TTC guides, senior discounts, and travel tips",
+                "aria": "Transportation resources - tap to learn about TTC guides, senior discounts, and travel tips"
+            },
+            "shopping": {
+                "title": "Shopping",
+                "description": "Indian grocery stores and markets nearby",
+                "aria": "Shopping resources - tap to find Indian grocery stores and markets nearby"
+            },
+            "worship": {
+                "title": "Places of Worship",
+                "description": "Temples, gurudwaras, and community centers",
+                "aria": "Places of worship - tap to find temples, gurudwaras, and community centers"
+            }
+        },
+        "events": {
+            "heading": "Upcoming Events",
+            "months": {
+                "may": "May"
+            },
+            "event1": {
+                "title": "Chai & Chat Meetup",
+                "description": "Join us for tea and conversation at the community center",
+                "aria": "Event on May 15th - Chai and Chat Meetup - tap to learn more",
+                "dateAria": "May 15th"
+            },
+            "event2": {
+                "title": "Yoga & Wellness Session",
+                "description": "Free yoga class for seniors at the park",
+                "aria": "Event on May 22nd - Yoga and Wellness Session - tap to learn more",
+                "dateAria": "May 22nd"
+            }
+        },
+        "contact": {
+            "heading": "Get In Touch",
+            "intro": "Have questions or want to get involved? We'd love to hear from you.",
+            "form": {
+                "name": "Name",
+                "namePlaceholder": "Your name",
+                "nameHint": "Enter your full name",
+                "email": "Email",
+                "emailPlaceholder": "your@email.com",
+                "emailHint": "Enter your email address so we can reply to you",
+                "subject": "Subject",
+                "subjectPlaceholder": "What is this about?",
+                "subjectHint": "Brief description of your message topic",
+                "message": "Message",
+                "messagePlaceholder": "Your message...",
+                "messageHint": "Type your message here - tell us how we can help",
+                "submit": "Send Message",
+                "submitAria": "Tap here to send your message to us",
+                "sending": "Sending...",
+                "success": "Thank you for your message! We will get back to you soon.",
+                "error": "Sorry, there was an error sending your message. Please try again."
+            }
+        },
+        "community": {
+            "heading": "Our Community",
+            "description": "Connect with fellow Indian grandparents in the Greater Toronto Area. Share experiences, make friends, and build lasting relationships."
+        },
+        "about": {
+            "heading": "About Us",
+            "description": "The Society of Indian Grandparents (SIG) is dedicated to combating loneliness among Indian seniors in the West by building a culturally resonant peer community."
+        },
+        "faq": {
+            "heading": "Frequently Asked Questions",
+            "q1": {
+                "question": "How do I get a senior's TTC card?",
+                "answer": "Seniors 65+ can apply for a TTC Senior card online or at any Shoppers Drug Mart. Bring ID with your birthdate."
+            },
+            "q2": {
+                "question": "Where can I find Indian groceries?",
+                "answer": "Popular areas include Gerrard India Bazaar, Brampton, and Mississauga. Stores like Patel Brothers and Oceans are well-stocked."
+            },
+            "q3": {
+                "question": "How do I find a Hindi-speaking doctor?",
+                "answer": "Contact Health Care Connect at 1-800-445-1822 and request a Hindi-speaking physician. Many clinics in Brampton and Scarborough have Hindi-speaking staff."
+            }
+        },
+        "footer": {
+            "copyright": "© 2026 Society of Indian Grandparents (SIG). Building community, one connection at a time."
+        }
+    },
+    hi: {
+        "meta": {
+            "title": "टोरंटो में भारतीय दादा-दादी - समुदाय और संसाधन",
+            "description": "भारतीय दादा-दादी समाज (SIG) - ग्रेटर टोरंटो में बुजुर्ग भारतीयों को जोड़ना। भारतीय वरिष्ठों के लिए संसाधन, कार्यक्रम और सामुदायिक सहायता खोजें।"
+        },
+        "nav": {
+            "home": "होम",
+            "events": "कार्यक्रम",
+            "resources": "संसाधन",
+            "community": "समुदाय",
+            "about": "हमारे बारे में",
+            "contact": "संपर्क",
+            "skipToMain": "मुख्य सामग्री पर जाएं",
+            "ariaHome": "होम अनुभाग पर जाएं",
+            "ariaEvents": "आगामी कार्यक्रम देखें",
+            "ariaResources": "सामुदायिक संसाधन ब्राउज़ करें",
+            "ariaCommunity": "हमारे समुदाय के बारे में जानें",
+            "ariaAbout": "हमारे बारे में पढ़ें",
+            "ariaContact": "हमसे संपर्क करें",
+            "ariaTheme": "रंग थीम बदलें - लाइट, डार्क और हाई कंट्रास्ट मोड के बीच स्विच करने के लिए टैप करें",
+            "ariaLang": "अंग्रेजी और हिंदी के बीच भाषा स्विच करें"
+        },
+        "header": {
+            "title": "टोरंटो में भारतीय दादा-दादी"
+        },
+        "hero": {
+            "heading": "अपने समुदाय में आपका स्वागत है",
+            "description": "हम भारतीय दादा-दादी समाज हैं। हम ग्रेटर टोरंटो क्षेत्र में बुजुर्ग भारतीयों को एक दूसरे से जोड़ने के लिए एक समुदाय हैं - संसाधन खोजें, दोस्त बनाएं, और उन गतिविधियों में साझा करें जो भारत में आम थीं लेकिन पश्चिम में मिलना मुश्किल हैं।"
+        },
+        "resources": {
+            "heading": "संसाधन",
+            "healthcare": {
+                "title": "स्वास्थ्य सेवा",
+                "description": "डॉक्टर, क्लीनिक और स्वास्थ्य सेवाएं खोजें",
+                "aria": "स्वास्थ्य सेवा संसाधन - डॉक्टर, क्लीनिक और स्वास्थ्य सेवाओं के बारे में अधिक जानने के लिए टैप करें"
+            },
+            "transportation": {
+                "title": "परिवहन",
+                "description": "TTC गाइड, वरिष्ठ छूट और यात्रा सुझाव",
+                "aria": "परिवहन संसाधन - TTC गाइड, वरिष्ठ छूट और यात्रा सुझावों के बारे में जानने के लिए टैप करें"
+            },
+            "shopping": {
+                "title": "खरीदारी",
+                "description": "पास में भारतीय किराना स्टोर और बाजार",
+                "aria": "खरीदारी संसाधन - पास में भारतीय किराना स्टोर और बाजार खोजने के लिए टैप करें"
+            },
+            "worship": {
+                "title": "पूजा स्थल",
+                "description": "मंदिर, गुरुद्वारे और सामुदायिक केंद्र",
+                "aria": "पूजा स्थल - मंदिर, गुरुद्वारे और सामुदायिक केंद्र खोजने के लिए टैप करें"
+            }
+        },
+        "events": {
+            "heading": "आगामी कार्यक्रम",
+            "months": {
+                "may": "मई"
+            },
+            "event1": {
+                "title": "चाय और बातचीत मिलन",
+                "description": "सामुदायिक केंद्र में चाय और बातचीत के लिए हमसे जुड़ें",
+                "aria": "15 मई को कार्यक्रम - चाय और बातचीत मिलन - अधिक जानने के लिए टैप करें",
+                "dateAria": "15 मई"
+            },
+            "event2": {
+                "title": "योग और स्वास्थ्य सत्र",
+                "description": "पार्क में वरिष्ठों के लिए मुफ्त योग कक्षा",
+                "aria": "22 मई को कार्यक्रम - योग और स्वास्थ्य सत्र - अधिक जानने के लिए टैप करें",
+                "dateAria": "22 मई"
+            }
+        },
+        "contact": {
+            "heading": "संपर्क करें",
+            "intro": "प्रश्न हैं या शामिल होना चाहते हैं? हम आपसे सुनना पसंद करेंगे।",
+            "form": {
+                "name": "नाम",
+                "namePlaceholder": "आपका नाम",
+                "nameHint": "अपना पूरा नाम दर्ज करें",
+                "email": "ईमेल",
+                "emailPlaceholder": "आपका@ईमेल.com",
+                "emailHint": "अपना ईमेल पता दर्ज करें ताकि हम आपको जवाब दे सकें",
+                "subject": "विषय",
+                "subjectPlaceholder": "यह किस बारे में है?",
+                "subjectHint": "आपके संदेश विषय का संक्षिप्त विवरण",
+                "message": "संदेश",
+                "messagePlaceholder": "आपका संदेश...",
+                "messageHint": "यहां अपना संदेश टाइप करें - हमें बताएं कि हम कैसे मदद कर सकते हैं",
+                "submit": "संदेश भेजें",
+                "submitAria": "हमें अपना संदेश भेजने के लिए यहां टैप करें",
+                "sending": "भेजा जा रहा है...",
+                "success": "आपके संदेश के लिए धन्यवाद! हम जल्द ही आपसे संपर्क करेंगे।",
+                "error": "क्षमा करें, आपका संदेश भेजने में त्रुटि हुई। कृपया पुनः प्रयास करें।"
+            }
+        },
+        "community": {
+            "heading": "हमारा समुदाय",
+            "description": "ग्रेटर टोरंटो क्षेत्र में साथी भारतीय दादा-दादी से जुड़ें। अनुभव साझा करें, दोस्त बनाएं, और स्थायी संबंध बनाएं।"
+        },
+        "about": {
+            "heading": "हमारे बारे में",
+            "description": "भारतीय दादा-दादी समाज (SIG) सांस्कृतिक रूप से प्रासंगिक सहकर्मी समुदाय बनाकर पश्चिम में भारतीय वरिष्ठों के बीच अकेलेपन से लड़ने के लिए समर्पित है।"
+        },
+        "faq": {
+            "heading": "अक्सर पूछे जाने वाले प्रश्न",
+            "q1": {
+                "question": "मुझे वरिष्ठ TTC कार्ड कैसे मिलेगा?",
+                "answer": "65+ वर्ष के वरिष्ठ ऑनलाइन या किसी भी शॉपर्स ड्रग मार्ट में TTC सीनियर कार्ड के लिए आवेदन कर सकते हैं। अपनी जन्मतिथि के साथ ID लाएं।"
+            },
+            "q2": {
+                "question": "मुझे भारतीय किराना कहाँ मिल सकता है?",
+                "answer": "लोकप्रिय क्षेत्रों में जेरार्ड इंडिया बाजार, ब्रैम्पटन और मिसिसॉगा शामिल हैं। पटेल ब्रदर्स और ओशन्स जैसे स्टोर अच्छी तरह से स्टॉक किए गए हैं।"
+            },
+            "q3": {
+                "question": "मुझे हिंदी बोलने वाला डॉक्टर कैसे मिलेगा?",
+                "answer": "हेल्थ केयर कनेक्ट से 1-800-445-1822 पर संपर्क करें और हिंदी बोलने वाले चिकित्सक का अनुरोध करें। ब्रैम्पटन और स्कारबोरो में कई क्लीनिकों में हिंदी बोलने वाले कर्मचारी हैं।"
+            }
+        },
+        "footer": {
+            "copyright": "© 2026 भारतीय दादा-दादी समाज (SIG)। एक समय में एक कनेक्शन, समुदाय का निर्माण।"
+        }
     }
-}
+};
+
+let currentLang = localStorage.getItem('language') || 'en';
 
 // Get nested translation value using dot notation (e.g., "nav.home")
 // Traverses the translation object to find the value at the specified path
@@ -102,7 +327,8 @@ function toggleLanguage() {
 
 // Initialize translations on page load
 document.addEventListener('DOMContentLoaded', () => {
-    loadTranslations();
+    // Translations are embedded, so apply immediately
+    applyTranslations();
     
     // Setup language toggle button
     const langToggle = document.getElementById('langToggle');
