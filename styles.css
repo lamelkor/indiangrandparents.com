@@ -28,9 +28,9 @@
 
 body {
     font-family: 'Iowan Old Style', 'Palatino Linotype', 'URW Palladio L', P052, serif;
-    line-height: 1.8;
+    line-height: 1.6;
     color: var(--text-dark);
-    font-size: 18px;
+    font-size: 20px; /* Increased from 18px for better readability */
     background: var(--dark-bg);
 }
 
@@ -157,10 +157,10 @@ header {
 }
 
 .hero-content p {
-    font-size: 1.4rem;
+    font-size: 1.5rem; /* Increased from 1.4rem */
     max-width: 800px;
     margin: 0 auto;
-    line-height: 1.9;
+    line-height: 1.7; /* Adjusted for better readability */
     font-weight: 300;
     opacity: 0.95;
 }
@@ -229,8 +229,8 @@ header {
 
 .resource-card p {
     color: var(--text-light);
-    font-size: 1.1rem;
-    line-height: 1.7;
+    font-size: 1.15rem; /* Increased from 1.1rem */
+    line-height: 1.6;
 }
 
 /* Events Section */
@@ -308,8 +308,8 @@ header {
 
 .event-details p {
     color: var(--text-light);
-    font-size: 1.1rem;
-    line-height: 1.7;
+    font-size: 1.15rem; /* Increased from 1.1rem */
+    line-height: 1.6;
 }
 
 /* Contact Section */
@@ -507,8 +507,8 @@ header {
 .faq-answer p {
     padding: 0 1.8rem 1.8rem;
     color: var(--text-light);
-    font-size: 1.1rem;
-    line-height: 1.8;
+    font-size: 1.15rem; /* Increased from 1.1rem */
+    line-height: 1.6;
 }
 
 /* Footer */
