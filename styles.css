@@ -31,6 +31,8 @@
     --text-dark: #F5F5F5;
     --text-light: #F5F5F5;
     --text-muted: #B0B0B0;
+    --deep-green: #00A86B; /* Lighter green for better contrast on dark */
+    --green: #2ECC71;
 }
 
 /* High Contrast Theme */
@@ -44,9 +46,21 @@
     --gold: #FFFF00;
     --text-dark: #FFFFFF;
     --text-light: #FFFFFF;
-    --text-muted: #CCCCCC;
+    --text-muted: #FFFFFF; /* Changed to white for better contrast */
     --dark-bg: #000000;
     --darker-bg: #000000;
+}
+
+/* High contrast theme - ensure all text is visible */
+[data-theme="high-contrast"] .hero,
+[data-theme="high-contrast"] header {
+    background: #000000;
+}
+
+[data-theme="high-contrast"] .resource-card,
+[data-theme="high-contrast"] .event-card,
+[data-theme="high-contrast"] .faq-item {
+    border: 3px solid #FFFF00;
 }
 
 * {
@@ -66,6 +80,48 @@
     clip: rect(0, 0, 0, 0);
     white-space: nowrap;
     border-width: 0;
+}
+
+/* Skip to main content link */
+.skip-link {
+    position: absolute;
+    top: -40px;
+    left: 0;
+    background: var(--saffron);
+    color: var(--text-dark);
+    padding: 0.75rem 1.5rem;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1rem;
+    z-index: 1000;
+    border-radius: 0 0 8px 0;
+}
+
+.skip-link:focus {
+    top: 0;
+    outline: 3px solid var(--deep-green);
+    outline-offset: 2px;
+}
+
+/* Enhanced focus visible styles for keyboard navigation */
+*:focus-visible {
+    outline: 3px solid var(--saffron);
+    outline-offset: 2px;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+    outline: 3px solid var(--saffron);
+    outline-offset: 2px;
+}
+
+.resource-card:focus-visible,
+.event-card:focus-visible {
+    outline: 3px solid var(--saffron);
+    outline-offset: 4px;
+    transform: translateY(-4px);
 }
 
 body {

@@ -100,6 +100,25 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });
 
+// Keyboard accessibility for resource and event cards
+const interactiveCards = document.querySelectorAll('.resource-card, .event-card');
+
+interactiveCards.forEach(card => {
+    card.addEventListener('keydown', (e) => {
+        // Activate card on Enter or Space key
+        if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            card.click();
+        }
+    });
+    
+    // Add click handler for future interactivity
+    card.addEventListener('click', () => {
+        // Placeholder for future functionality (e.g., modal, navigation)
+        console.log('Card clicked:', card.getAttribute('aria-label'));
+    });
+});
+
 // Contact Form Handling - Fallback for non-AJAX
 const contactForm = document.getElementById('contactForm');
 const formStatus = document.getElementById('formStatus');
